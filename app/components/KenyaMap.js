@@ -323,14 +323,7 @@ const KenyaMap = () => {
 
   return (
     <div 
-      className="w-full rounded-2xl overflow-hidden relative"
-      style={{
-        height: '350px', // Custom height between h-80 (320px) and h-96 (384px)
-        background: 'rgba(0, 0, 0, 0.25)',
-        backdropFilter: 'blur(20px)',
-        border: '1px solid rgba(255, 255, 255, 0.15)',
-        boxShadow: '0 20px 60px rgba(0, 0, 0, 0.4)',
-    }}
+      className="w-full h-96 rounded-2xl overflow-hidden relative"
       style={{
         background: 'rgba(0, 0, 0, 0.25)',
         backdropFilter: 'blur(20px)',
@@ -348,7 +341,7 @@ const KenyaMap = () => {
             border: '1px solid rgba(255, 255, 255, 0.2)',
           }}
         >
-          Kenya Safari Regions
+          Locations
         </div>
       </div>
 

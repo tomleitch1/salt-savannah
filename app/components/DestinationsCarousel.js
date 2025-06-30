@@ -3,7 +3,33 @@
 import React, { useState, useEffect } from 'react';
 import DestinationCards from './DestinationCards';
 import KenyaMap from './KenyaMap';
+import ExpandableGrid from './ExpandableGrid';
 
+const customScrollbarCSS = `
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(250, 225, 216, 0.3) transparent;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+    margin-right: 12px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(250, 225, 216, 0.4);
+    border-radius: 10px;
+    border: none;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(250, 225, 216, 0.6);
+  }
+`;
 
 const hideScrollbarCSS = `
   .hide-scrollbar::-webkit-scrollbar {
@@ -38,7 +64,7 @@ const ExperienceDetailView = ({ experience, onBack, collectionsPos, isLocked, ha
             overflow: 'hidden'
           }}
         >
-          <div className="flex-shrink-0 border-b border-white/10 p-6 lg:p-8 bg-black/20 backdrop-blur-sm">
+          <div className="flex-shrink-0 border-b border-white/10 p-4 lg:p-5 bg-black/20 backdrop-blur-sm">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
                 <button 
@@ -120,15 +146,15 @@ const ExperienceDetailView = ({ experience, onBack, collectionsPos, isLocked, ha
           </div>
           
           <div 
-            className={`flex-1 hide-scrollbar ${isLocked ? 'overflow-y-auto' : 'overflow-visible'}`}
+            className={`flex-1 custom-scrollbar ${isLocked ? 'overflow-y-auto' : 'overflow-visible'}`}
             onScroll={handleCollectionsScroll}
             style={{ 
-              height: isLocked ? 'calc(100% - 160px)' : 'auto'
+              height: isLocked ? 'calc(100% - 120px)' : 'auto'
             }}
           >
-            <div className="p-6 lg:p-8">
+            <div className="p-4 lg:p-6">
               <div 
-                className="relative rounded-2xl overflow-hidden h-80 lg:h-96 xl:h-80 2xl:h-[500px] mb-6"
+                className="relative rounded-2xl overflow-hidden h-80 lg:h-96 xl:h-80 2xl:h-[500px] mb-3"
                 style={{
                   background: experience.gradient,
                 }}
@@ -160,12 +186,12 @@ const ExperienceDetailView = ({ experience, onBack, collectionsPos, isLocked, ha
                   </div>
                 </div>
                 <div className="absolute top-4 right-4 px-3 py-1 rounded-lg text-xs text-white/60"
-                     style={{ background: 'rgba(0, 0, 0, 0.5)' }}>
+                    style={{ background: 'rgba(0, 0, 0, 0.5)' }}>
                   📸 Stunning Image Placeholder
                 </div>
               </div>
               
-              <div className="mb-6">
+              <div className="mb-12">
                 <div 
                   className="px-4 py-3 rounded-2xl text-sm text-white/80 leading-relaxed"
                   style={{ 
@@ -178,44 +204,15 @@ const ExperienceDetailView = ({ experience, onBack, collectionsPos, isLocked, ha
                 </div>
               </div>
 
-              {/* Two-column layout: Text left, Map right */}
-              <div className="mb-6">
+              {/* Two-column layout: Grid left, Map right */}
+              <div className="mb-3">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  {/* Left column - Additional text content */}
-                  <div className="space-y-4">
-                    <div 
-                      className="px-4 py-3 rounded-2xl text-sm text-white/80 leading-relaxed"
-                      style={{ 
-                        background: 'rgba(0, 0, 0, 0.25)',
-                        backdropFilter: 'blur(20px)',
-                        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
-                      }}
-                    >
-                      <h4 className="text-white text-base font-semibold mb-3">Explore the Regions</h4>
-                      <p className="mb-3">
-                        Each destination in Kenya offers unique experiences, from the rolling plains of the Maasai Mara to the pristine beaches of the coast.
-                      </p>
-                      <p>
-                        Use the interactive map to discover key locations, click on markers to learn about specific areas, and filter between savannah and coastal experiences.
-                      </p>
-                    </div>
-                    
-                    <div 
-                      className="px-4 py-3 rounded-2xl text-sm text-white/80 leading-relaxed"
-                      style={{ 
-                        background: 'rgba(0, 0, 0, 0.25)',
-                        backdropFilter: 'blur(20px)',
-                        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
-                      }}
-                    >
-                      <h4 className="text-white text-base font-semibold mb-3">Plan Your Journey</h4>
-                      <p>
-                        Our expert travel advisors can help you combine multiple destinations into the perfect itinerary, balancing wildlife viewing, cultural experiences, and relaxation.
-                      </p>
-                    </div>
+                  {/* Left column - EXPANDABLE GRID */}
+                  <div className="h-96">
+                    <ExpandableGrid />
                   </div>
                   
-                  {/* Right column - Map */}
+                  {/* Right column - Map (unchanged) */}
                   <div>
                     <KenyaMap />
                   </div>
@@ -366,13 +363,14 @@ const InspirationsHub = () => {
   };
 
   return (
-    <>
-      <style dangerouslySetInnerHTML={{ __html: `
-        ${hideScrollbarCSS}
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
+  <>
+    <style dangerouslySetInnerHTML={{ __html: `
+      ${hideScrollbarCSS}
+      ${customScrollbarCSS}
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
         @keyframes slideUp {
           from { opacity: 0; transform: translateY(10px); }
           to { opacity: 1; transform: translateY(0); }
@@ -578,7 +576,7 @@ const InspirationsHub = () => {
                 onScroll={handleCollectionsScroll}
                 style={{ height: isLocked ? 'calc(100% - 120px)' : 'auto' }}
               >
-                <div className="p-6 lg:p-8">
+                <div className="p-6 lg:p-8 pb-3 lg:pb-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 lg:gap-4 xl:gap-5 2xl:gap-6">
                     {currentCards.map((card) => (
                       <div 
