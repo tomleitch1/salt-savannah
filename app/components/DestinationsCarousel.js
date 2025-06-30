@@ -398,6 +398,24 @@ const InspirationsHub = () => {
                   >
                     <span className="relative text-white/80 group-hover:text-[#CBD5FF] transition-colors duration-300 flex items-center justify-center gap-2">
                       <img 
+                        src="/staricon.png" 
+                        alt="Star" 
+                        className="w-3 lg:w-4 xl:w-4 h-3 lg:h-4 xl:h-4"
+                        style={{ filter: 'brightness(0) saturate(100%) invert(89%) sepia(12%) saturate(678%) hue-rotate(316deg) brightness(99%) contrast(96%)' }}
+                      />
+                      Begin Exploring
+                    </span>
+                  </button>
+                  <button 
+                    className="group relative overflow-hidden rounded-2xl px-3 lg:px-4 xl:px-5 py-2 lg:py-2.5 xl:py-3 text-xs lg:text-sm xl:text-base font-medium transition-all duration-300 hover:scale-105 whitespace-nowrap"
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.1)',
+                      backdropFilter: 'blur(10px)',
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+                    }}
+                  >
+                    <span className="relative text-white/80 group-hover:text-[#CBD5FF] transition-colors duration-300 flex items-center justify-center gap-2">
+                      <img 
                         src="/phone.png" 
                         alt="Phone" 
                         className="w-3 lg:w-4 xl:w-4 h-3 lg:h-4 xl:h-4"
