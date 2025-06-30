@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import DestinationCards from './DestinationCards';
+import KenyaMap from './KenyaMap';
+
 
 const hideScrollbarCSS = `
   .hide-scrollbar::-webkit-scrollbar {
@@ -173,6 +175,50 @@ const ExperienceDetailView = ({ experience, onBack, collectionsPos, isLocked, ha
                   }}
                 >
                   From the sweeping savannahs of the Mara to the quiet coastline of Lamu, Kenya offers big game safaris, private conservancies, rich Swahili culture, and fly-in access to remote, luxury camps. It's one of the most diverse and well-connected destinations in Africa—ideal for combining wildlife, culture, and coast in a single trip.
+                </div>
+              </div>
+
+              {/* Two-column layout: Text left, Map right */}
+              <div className="mb-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {/* Left column - Additional text content */}
+                  <div className="space-y-4">
+                    <div 
+                      className="px-4 py-3 rounded-2xl text-sm text-white/80 leading-relaxed"
+                      style={{ 
+                        background: 'rgba(0, 0, 0, 0.25)',
+                        backdropFilter: 'blur(20px)',
+                        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
+                      }}
+                    >
+                      <h4 className="text-white text-base font-semibold mb-3">Explore the Regions</h4>
+                      <p className="mb-3">
+                        Each destination in Kenya offers unique experiences, from the rolling plains of the Maasai Mara to the pristine beaches of the coast.
+                      </p>
+                      <p>
+                        Use the interactive map to discover key locations, click on markers to learn about specific areas, and filter between savannah and coastal experiences.
+                      </p>
+                    </div>
+                    
+                    <div 
+                      className="px-4 py-3 rounded-2xl text-sm text-white/80 leading-relaxed"
+                      style={{ 
+                        background: 'rgba(0, 0, 0, 0.25)',
+                        backdropFilter: 'blur(20px)',
+                        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
+                      }}
+                    >
+                      <h4 className="text-white text-base font-semibold mb-3">Plan Your Journey</h4>
+                      <p>
+                        Our expert travel advisors can help you combine multiple destinations into the perfect itinerary, balancing wildlife viewing, cultural experiences, and relaxation.
+                      </p>
+                    </div>
+                  </div>
+                  
+                  {/* Right column - Map */}
+                  <div>
+                    <KenyaMap />
+                  </div>
                 </div>
               </div>
             </div>
