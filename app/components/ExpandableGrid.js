@@ -221,6 +221,8 @@ const MonthSelector = () => {
     </div>
   );
 };
+
+// Individual Grid Card Component - WITH IMAGE PLACEHOLDER
 const GridCard = ({ 
   id, 
   title, 
@@ -229,216 +231,144 @@ const GridCard = ({
   gradient,
   accentColor,
   isExpanded = false, 
-  onToggle, 
-  className = "" 
+  onToggle
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
+  if (isExpanded) {
+    // EXPANDED STATE - Full takeover
+    return (
+      <div 
+        className="col-span-2 row-span-2 rounded-2xl cursor-pointer transition-all duration-500 overflow-hidden"
+        style={{ 
+          background: `${gradient}, rgba(0, 0, 0, 0.3)`,
+          backgroundBlendMode: 'overlay',
+          backdropFilter: 'blur(20px)',
+          boxShadow: '0 16px 48px rgba(0, 0, 0, 0.6), 0 8px 24px rgba(0, 0, 0, 0.4)'
+        }}
+      >
+        {/* Expanded Header */}
+        <div className="flex items-center justify-between p-6 border-b border-white/10">
+          <h4 className="text-[#FAE1D8] text-xl font-semibold">{title}</h4>
+          <button 
+            onClick={() => onToggle(id)}
+            className="text-[#FAE1D8]/70 hover:text-[#FAE1D8] transition-all duration-300"
+          >
+            <svg className="w-5 h-5 rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Expanded Content */}
+        <div className="flex-1 overflow-y-auto custom-scrollbar" style={{ height: 'calc(100% - 80px)' }}>
+          <div className="p-6">
+            {id === 3 ? (
+              <MonthSelector />
+            ) : (
+              <div className="space-y-4">
+                <p className="text-[#FAE1D8]/90 leading-relaxed">{expandedContent}</p>
+                <div className="grid grid-cols-2 gap-3 mt-6">
+                  <div className="flex items-center gap-2 text-xs text-[#FAE1D8]/80">
+                    <span>🎯</span><span>Expert Guidance</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-[#FAE1D8]/80">
+                    <span>✨</span><span>Premium Access</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-[#FAE1D8]/80">
+                    <span>🌍</span><span>Local Insights</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-[#FAE1D8]/80">
+                    <span>📱</span><span>24/7 Support</span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // NON-EXPANDED STATE - WITH IMAGE PLACEHOLDER
   return (
     <div 
-      className={`
-        relative rounded-2xl cursor-pointer transition-all duration-500 overflow-hidden h-full w-full
-        ${className}
-      `}
+      className="rounded-2xl cursor-pointer transition-all duration-500 overflow-hidden h-full w-full p-3"
       style={{ 
         background: `${gradient}, rgba(0, 0, 0, 0.3)`,
         backgroundBlendMode: 'overlay',
         backdropFilter: 'blur(20px)',
-        boxShadow: isHovered && !isExpanded 
+        boxShadow: isHovered 
           ? '0 6px 20px rgba(0, 0, 0, 0.4), 0 2px 8px rgba(0, 0, 0, 0.2)' 
-          : isExpanded
-          ? '0 16px 48px rgba(0, 0, 0, 0.6), 0 8px 24px rgba(0, 0, 0, 0.4)'
           : '0 8px 32px rgba(0, 0, 0, 0.4)',
-        transform: isHovered && !isExpanded ? 'translateY(-2px) scale(1.01)' : 'translateY(0) scale(1)',
+        transform: isHovered ? 'translateY(-2px) scale(1.01)' : 'translateY(0) scale(1)',
       }}
       onClick={() => onToggle(id)}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Subtle overlay for depth */}
+      {/* IMAGE PLACEHOLDER - 80% of card height */}
       <div 
-        className="absolute inset-0 rounded-2xl transition-opacity duration-300"
+        className="rounded-xl mb-3"
         style={{
-          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 50%, rgba(0, 0, 0, 0.1) 100%)',
-          opacity: isHovered ? 0.8 : 1
+          height: '80%',
+          width: '100%',
+          background: '#1a1a1a',
+          border: '2px solid rgba(255, 255, 255, 0.1)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
         }}
-      />
-      
-      <div className={`relative h-full flex flex-col transition-all duration-300 ${isExpanded ? 'p-6 custom-scrollbar-container' : 'p-4'}`}>
-        {/* Card Header */}
-        <div className="flex items-center justify-between mb-3">
-          <h4 className={`text-[#FAE1D8] font-semibold drop-shadow-lg transition-all duration-300 ${isExpanded ? 'text-xl' : 'text-base'}`}>
-            {title}
-          </h4>
-          <button className={`text-[#FAE1D8]/70 hover:text-[#FAE1D8] transition-all duration-300 ${isHovered ? 'transform rotate-12 scale-110' : ''}`}>
-            <svg 
-              className={`w-4 h-4 transition-transform duration-300 ${isExpanded ? 'rotate-45' : ''}`} 
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-            </svg>
-          </button>
+      >
+        <div className="text-center text-white/50">
+          <div className="text-2xl mb-2">📸</div>
+          <div className="text-sm">Image Placeholder</div>
         </div>
-        
-        {/* Card Content */}
-        <div className={`relative flex-1 drop-shadow transition-all duration-300 ${isExpanded ? 'overflow-y-auto text-base custom-scrollbar' : 'overflow-hidden'}`}
-          style={isExpanded ? {
-            paddingRight: '20px',
-            marginRight: '-8px'
-          } : {}}
-        >
-          {isExpanded ? (
-            <div className="space-y-4 text-sm text-[#FAE1D8]/90 leading-relaxed">
-              {/* Special content for Wildlife & Seasons card */}
-              {id === 3 ? (
-                <MonthSelector />
-              ) : (
-                <>
-                  <p className="text-[#FAE1D8] leading-relaxed">{expandedContent}</p>
-                  
-                  {/* Expanded features section */}
-                  <div className="mt-6 space-y-4">
-                    <div className="text-sm text-[#FAE1D8]/80 font-medium">Key Features:</div>
-                    <div className="grid grid-cols-2 gap-3">
-                      <div className="flex items-center gap-2 text-xs text-[#FAE1D8]/80">
-                        <span>🎯</span>
-                        <span>Expert Guidance</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-xs text-[#FAE1D8]/80">
-                        <span>✨</span>
-                        <span>Premium Access</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-xs text-[#FAE1D8]/80">
-                        <span>🌍</span>
-                        <span>Local Insights</span>
-                      </div>
-                      <div className="flex items-center gap-2 text-xs text-[#FAE1D8]/80">
-                        <span>📱</span>
-                        <span>24/7 Support</span>
-                      </div>
-                    </div>
-                  </div>
-                </>
-              )}
-            </div>
-          ) : (
-            /* BASIC BLANK CARD - Just hover animations, plus icon, and click to expand */
-            <div className="h-full flex flex-col">
-              {/* BLANK IMAGE AREA */}
-              <div 
-                className="relative rounded-xl overflow-hidden"
-                style={{
-                  height: '85%',
-                  background: id === 1 ? 'linear-gradient(135deg, #0891b2, #0e7490)' : 
-                             id === 2 ? 'linear-gradient(135deg, #1e40af, #1e3a8a)' : 
-                             id === 3 ? 'linear-gradient(135deg, #059669, #047857)' : 
-                             'linear-gradient(135deg, #7c3aed, #6d28d9)',
-                }}
-              >
-                {/* Plus icon - top right */}
-                <div className="absolute top-3 right-3">
-                  <div 
-                    className="w-6 h-6 rounded-full flex items-center justify-center"
-                    style={{
-                      background: 'rgba(255, 255, 255, 0.2)',
-                      backdropFilter: 'blur(10px)',
-                    }}
-                  >
-                    <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                    </svg>
-                  </div>
-                </div>
-              </div>
+      </div>
 
-              {/* Click to expand - bottom */}
-              <div 
-                className="flex items-center justify-center"
-                style={{ height: '15%' }}
-              >
-                <span className="text-xs text-[#FAE1D8]/60">Click to expand...</span>
-              </div>
-            </div>
-          )}
-        </div>
-        
-        {/* Expansion Indicator */}
-        {!isExpanded && (
-          <div className={`mt-3 text-xs text-[#FAE1D8]/60 transition-all duration-300 ${isHovered ? 'text-[#FAE1D8]/80' : ''}`}>
-            Click to expand...
-          </div>
-        )}
-
-        {/* Expanded Action Buttons - Only show for non-Wildlife & Seasons cards */}
-        {isExpanded && id !== 3 && (
-          <div className="mt-4 flex gap-2">
-            <button 
-              className="flex-1 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-300 hover:scale-105"
-              style={{
-                background: `${accentColor}`,
-                border: '1px solid rgba(250, 225, 216, 0.2)',
-                backdropFilter: 'blur(10px)',
-              }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <span className="text-[#FAE1D8] drop-shadow">🔍 Explore More</span>
-            </button>
-            <button 
-              className="flex-1 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-300 hover:scale-105"
-              style={{
-                background: 'rgba(250, 225, 216, 0.15)',
-                border: '1px solid rgba(250, 225, 216, 0.3)',
-                backdropFilter: 'blur(10px)',
-              }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <span className="text-[#FAE1D8] drop-shadow">❤️ Add to Board</span>
-            </button>
-          </div>
-        )}
+      {/* CLICK TO EXPAND - 20% */}
+      <div className="text-center">
+        <span className="text-xs text-[#FAE1D8]/60">Click to expand...</span>
       </div>
     </div>
   );
 };
 
-// Main Expandable Grid Component
+// Main Standalone ExpandableGrid Component
 const ExpandableGrid = () => {
   const [expandedCard, setExpandedCard] = useState(null);
 
-  // Card data with deep, rich colors - easily customizable
   const cardData = [
     {
       id: 1,
       title: "Explore the Regions",
       content: "Discover key locations across Kenya's diverse landscapes, from rolling savannahs to pristine coastlines.",
-      expandedContent: "Each destination in Kenya offers unique experiences, from the rolling plains of the Maasai Mara to the pristine beaches of the coast. Use the interactive map to discover key locations, click on markers to learn about specific areas, and filter between savannah and coastal experiences. Our detailed guides provide insider knowledge about the best times to visit, hidden gems, and exclusive access opportunities that make your journey truly exceptional.",
-      gradient: "linear-gradient(135deg, rgba(220, 38, 127, 0.3), rgba(159, 18, 57, 0.35))", // Deep pink/burgundy
+      expandedContent: "Each destination in Kenya offers unique experiences, from the rolling plains of the Maasai Mara to the pristine beaches of the coast. Use the interactive map to discover key locations, click on markers to learn about specific areas, and filter between savannah and coastal experiences.",
+      gradient: "linear-gradient(135deg, rgba(220, 38, 127, 0.3), rgba(159, 18, 57, 0.35))",
       accentColor: "rgba(220, 38, 127, 0.2)"
     },
     {
       id: 2,
       title: "Plan Your Journey", 
       content: "Expert travel advisors craft perfect itineraries balancing wildlife, culture, and relaxation.",
-      expandedContent: "Our expert travel advisors can help you combine multiple destinations into the perfect itinerary, balancing wildlife viewing, cultural experiences, and relaxation. Every journey is carefully crafted to maximize your time and create unforgettable memories. We handle all logistics, from luxury accommodations to private transfers, ensuring seamless transitions between experiences while maintaining the highest standards of comfort and authenticity.",
-      gradient: "linear-gradient(135deg, rgba(75, 85, 99, 0.3), rgba(55, 65, 81, 0.35))", // Deep slate/charcoal
+      expandedContent: "Our expert travel advisors can help you combine multiple destinations into the perfect itinerary, balancing wildlife viewing, cultural experiences, and relaxation. Every journey is carefully crafted to maximize your time and create unforgettable memories.",
+      gradient: "linear-gradient(135deg, rgba(75, 85, 99, 0.3), rgba(55, 65, 81, 0.35))",
       accentColor: "rgba(75, 85, 99, 0.2)"
     },
     {
       id: 3,
       title: "Wildlife & Seasons",
       content: "Understanding optimal timing for wildlife viewing and seasonal migration patterns.",
-      expandedContent: "Understanding the best times to visit different regions is crucial for wildlife viewing. The Great Migration, calving seasons, and weather patterns all play a role in creating the perfect safari experience. Our wildlife experts provide detailed seasonal calendars, migration tracking, and optimal viewing strategies to ensure you witness nature's most spectacular moments in ideal conditions.",
-      gradient: "linear-gradient(135deg, rgba(101, 163, 13, 0.3), rgba(54, 83, 20, 0.35))", // Deep forest green
+      expandedContent: "Understanding the best times to visit different regions is crucial for wildlife viewing. The Great Migration, calving seasons, and weather patterns all play a role in creating the perfect safari experience.",
+      gradient: "linear-gradient(135deg, rgba(101, 163, 13, 0.3), rgba(54, 83, 20, 0.35))",
       accentColor: "rgba(101, 163, 13, 0.2)"
     },
     {
       id: 4,
       title: "Cultural Experiences",
       content: "Authentic encounters with local communities and traditional ceremonies.",
-      expandedContent: "Beyond wildlife, Kenya offers rich cultural encounters with local communities, traditional ceremonies, and authentic interactions that provide deep insights into East African heritage and modern life. Experience age-old traditions, participate in community projects, and gain meaningful connections that enrich your understanding of this vibrant culture through respectful and immersive experiences.",
-      gradient: "linear-gradient(135deg, rgba(79, 70, 229, 0.3), rgba(67, 56, 202, 0.35))", // Deep indigo/purple
+      expandedContent: "Beyond wildlife, Kenya offers rich cultural encounters with local communities, traditional ceremonies, and authentic interactions that provide deep insights into East African heritage and modern life.",
+      gradient: "linear-gradient(135deg, rgba(79, 70, 229, 0.3), rgba(67, 56, 202, 0.35))",
       accentColor: "rgba(79, 70, 229, 0.2)"
     }
   ];
@@ -449,66 +379,55 @@ const ExpandableGrid = () => {
 
   return (
     <div className="h-full">
-      {/* Custom scrollbar styles for expanded cards */}
+      {/* Custom scrollbar styles */}
       <style dangerouslySetInnerHTML={{
         __html: `
-          .custom-scrollbar-container .custom-scrollbar {
+          .custom-scrollbar {
             scrollbar-width: thin;
             scrollbar-color: rgba(250, 225, 216, 0.3) transparent;
           }
           
-          .custom-scrollbar-container .custom-scrollbar::-webkit-scrollbar {
+          .custom-scrollbar::-webkit-scrollbar {
             width: 6px;
           }
           
-          .custom-scrollbar-container .custom-scrollbar::-webkit-scrollbar-track {
+          .custom-scrollbar::-webkit-scrollbar-track {
             background: transparent;
           }
           
-          .custom-scrollbar-container .custom-scrollbar::-webkit-scrollbar-thumb {
+          .custom-scrollbar::-webkit-scrollbar-thumb {
             background: rgba(250, 225, 216, 0.4);
             border-radius: 10px;
             border: none;
           }
           
-          .custom-scrollbar-container .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          .custom-scrollbar::-webkit-scrollbar-thumb:hover {
             background: rgba(250, 225, 216, 0.6);
-          }
-          
-          .custom-scrollbar-container {
-            position: relative;
-          }
-          
-          .custom-scrollbar-container .custom-scrollbar {
-            padding-right: 16px;
           }
         `
       }} />
       
-      {/* 2x2 Grid Container with explicit sizing */}
+      {/* 2x2 Grid Container */}
       <div className={`grid grid-cols-2 gap-4 h-full transition-all duration-500 ${expandedCard ? 'grid-rows-1' : 'grid-rows-2'}`}>
         {expandedCard ? (
-          // When a card is expanded, show only that card taking full space
-          <>
-            {cardData
-              .filter(card => card.id === expandedCard)
-              .map((card) => (
-                <div key={card.id} className="col-span-2 row-span-1">
-                  <GridCard
-                    id={card.id}
-                    title={card.title}
-                    content={card.content}
-                    expandedContent={card.expandedContent}
-                    gradient={card.gradient}
-                    accentColor={card.accentColor}
-                    isExpanded={true}
-                    onToggle={handleCardToggle}
-                  />
-                </div>
-              ))}
-          </>
+          // Show only expanded card
+          cardData
+            .filter(card => card.id === expandedCard)
+            .map((card) => (
+              <GridCard
+                key={card.id}
+                id={card.id}
+                title={card.title}
+                content={card.content}
+                expandedContent={card.expandedContent}
+                gradient={card.gradient}
+                accentColor={card.accentColor}
+                isExpanded={true}
+                onToggle={handleCardToggle}
+              />
+            ))
         ) : (
-          // Normal 2x2 grid view
+          // Show all cards in 2x2 grid
           cardData.map((card) => (
             <GridCard
               key={card.id}
@@ -524,8 +443,6 @@ const ExpandableGrid = () => {
           ))
         )}
       </div>
-      
-
     </div>
   );
 };
