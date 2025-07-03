@@ -1,13 +1,16 @@
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
-import DestinationsCarousel from './components/DestinationsCarousel';
+import PageLayoutManager from './components/PageLayoutManager';
+import ContentManager from './components/ContentManager';
 
 export default function Page() {
   return (
     <>
       <Navbar />
       <HeroSection />
-      <DestinationsCarousel />
+      <PageLayoutManager>
+        <ContentManager />
+      </PageLayoutManager>
     </>
-  )
+  );
 }
