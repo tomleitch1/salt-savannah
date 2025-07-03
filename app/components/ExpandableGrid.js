@@ -222,7 +222,7 @@ const MonthSelector = () => {
   );
 };
 
-// Individual Grid Card Component - WITH IMAGE PLACEHOLDER
+// Individual Grid Card Component - IMPROVED VERSION
 const GridCard = ({ 
   id, 
   title, 
@@ -234,6 +234,22 @@ const GridCard = ({
   onToggle
 }) => {
   const [isHovered, setIsHovered] = useState(false);
+
+  // Reset hover state when expanded state changes
+  React.useEffect(() => {
+    if (isExpanded) {
+      setIsHovered(false);
+    }
+  }, [isExpanded]);
+
+  // Extract darker color from gradient for image placeholder
+  const getDarkerImageColor = (gradient) => {
+    if (gradient.includes('220, 38, 127')) return 'rgba(60, 10, 35, 0.95)'; // Pink -> Very dark pink
+    if (gradient.includes('75, 85, 99')) return 'rgba(15, 20, 25, 0.95)'; // Gray -> Very dark gray  
+    if (gradient.includes('101, 163, 13')) return 'rgba(20, 30, 5, 0.95)'; // Green -> Very dark green
+    if (gradient.includes('79, 70, 229')) return 'rgba(25, 20, 80, 0.95)'; // Purple -> Very dark purple
+    return 'rgba(10, 15, 20, 0.95)'; // Default very dark
+  };
 
   if (isExpanded) {
     // EXPANDED STATE - Full takeover
@@ -249,10 +265,10 @@ const GridCard = ({
       >
         {/* Expanded Header */}
         <div className="flex items-center justify-between p-6 border-b border-white/10">
-          <h4 className="text-[#FAE1D8] text-xl font-semibold">{title}</h4>
+          <h4 className="text-[#FAE1D8] text-xl font-semibold flex-shrink-0">{title}</h4>
           <button 
             onClick={() => onToggle(id)}
-            className="text-[#FAE1D8]/70 hover:text-[#FAE1D8] transition-all duration-300"
+            className="text-[#FAE1D8]/70 hover:text-[#FAE1D8] transition-all duration-300 flex-shrink-0 ml-4"
           >
             <svg className="w-5 h-5 rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -267,7 +283,7 @@ const GridCard = ({
               <MonthSelector />
             ) : (
               <div className="space-y-4">
-                <p className="text-[#FAE1D8]/90 leading-relaxed">{expandedContent}</p>
+                <p className="text-[#FAE1D8]/90 leading-relaxed break-words">{expandedContent}</p>
                 <div className="grid grid-cols-2 gap-3 mt-6">
                   <div className="flex items-center gap-2 text-xs text-[#FAE1D8]/80">
                     <span>🎯</span><span>Expert Guidance</span>
@@ -290,10 +306,10 @@ const GridCard = ({
     );
   }
 
-  // NON-EXPANDED STATE - WITH IMAGE PLACEHOLDER
+  // NON-EXPANDED STATE - IMPROVED VERSION
   return (
     <div 
-      className="rounded-2xl cursor-pointer transition-all duration-500 overflow-hidden h-full w-full p-3"
+      className="rounded-2xl cursor-pointer transition-all duration-500 overflow-hidden h-full w-full p-2 relative group"
       style={{ 
         background: `${gradient}, rgba(0, 0, 0, 0.3)`,
         backgroundBlendMode: 'overlay',
@@ -307,28 +323,60 @@ const GridCard = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* IMAGE PLACEHOLDER - 80% of card height */}
+      {/* IMAGE PLACEHOLDER - full height with matching margins */}
       <div 
-        className="rounded-xl mb-3"
+        className="rounded-xl relative overflow-hidden"
         style={{
-          height: '80%',
-          width: '100%',
-          background: '#1a1a1a',
-          border: '2px solid rgba(255, 255, 255, 0.1)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
+          height: 'calc(100% - 16px)', // Account for 8px margin top and bottom
+          margin: '8px', // Equal margins on all sides
+          background: getDarkerImageColor(gradient),
         }}
       >
-        <div className="text-center text-white/50">
-          <div className="text-2xl mb-2">📸</div>
-          <div className="text-sm">Image Placeholder</div>
+        {/* Plus Icon with Glass Morphism - subtle animation */}
+        <div 
+          className="absolute top-2 right-2 flex items-center justify-center w-6 h-6 rounded-full transition-all duration-200"
+          style={{
+            background: 'rgba(255, 255, 255, 0.2)',
+            backdropFilter: 'blur(8px)',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
+            transform: isHovered ? 'scale(1.1) rotate(15deg)' : 'scale(1) rotate(0deg)'
+          }}
+        >
+          <svg 
+            className="w-3 h-3 text-[#FAE1D8]" 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          </svg>
         </div>
-      </div>
 
-      {/* CLICK TO EXPAND - 20% */}
-      <div className="text-center">
-        <span className="text-xs text-[#FAE1D8]/60">Click to expand...</span>
+        {/* Hover Overlay with Expanded Text */}
+        <div 
+          className={`absolute inset-0 rounded-xl transition-all duration-300 ${
+            isHovered && !isExpanded ? 'opacity-100' : 'opacity-0'
+          }`}
+          style={{
+            background: 'linear-gradient(to top, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.1))',
+          }}
+        >
+          <div className="absolute bottom-4 left-4 right-4">
+            <h4 className="text-[#FAE1D8] text-base font-semibold mb-2">{title}</h4>
+            <p className="text-[#FAE1D8]/90 text-sm leading-relaxed break-words">
+              {content}
+            </p>
+          </div>
+        </div>
+
+        {/* Card Title Overlay - always visible when not hovered */}
+        <div 
+          className={`absolute bottom-4 left-4 transition-all duration-300 ${
+            isHovered || isExpanded ? 'opacity-0' : 'opacity-100'
+          }`}
+        >
+          <h4 className="text-[#FAE1D8] text-base font-semibold">{title}</h4>
+        </div>
       </div>
     </div>
   );
