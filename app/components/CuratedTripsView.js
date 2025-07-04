@@ -6,10 +6,26 @@ const CuratedTripsView = ({ onBack, isLocked, onScroll }) => {
   const [activeTab, setActiveTab] = useState('trips');
 
   const curatedTabs = [
-    { id: 'trips', label: 'Curated Trips', icon: '❤️' },
-    { id: 'experiences', label: 'Experiences', icon: '❤️' },
-    { id: 'locations', label: 'Locations', icon: '❤️' },
-    { id: 'properties', label: 'Properties', icon: '❤️' }
+    { 
+      id: 'trips', 
+      label: 'Curated Trips',
+      description: 'Personalized trip recommendations'
+    },
+    { 
+      id: 'experiences', 
+      label: 'Experiences',
+      description: 'Saved experiences and activities'
+    },
+    { 
+      id: 'locations', 
+      label: 'Locations',
+      description: 'Saved destinations and places'
+    },
+    { 
+      id: 'properties', 
+      label: 'Properties',
+      description: 'Saved accommodations and lodges'
+    }
   ];
 
   const customScrollbarCSS = `
@@ -174,26 +190,47 @@ const CuratedTripsView = ({ onBack, isLocked, onScroll }) => {
               </svg>
             </button>
             
-            {/* Main Tabs - Heart Icon Theme */}
-            <div className="flex items-center gap-8">
-              {curatedTabs.map((tab) => (
-                <button 
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-2 text-base lg:text-lg font-medium transition-all duration-300 ${
-                    activeTab === tab.id 
-                      ? 'text-[#CBD5FF]' 
-                      : 'text-white/60 hover:text-white/80'
-                  }`}
-                >
-                  <span className={`transition-all duration-300 ${
-                    activeTab === tab.id ? 'scale-110' : 'scale-100'
-                  }`}>
-                    {tab.icon}
-                  </span>
-                  {tab.label}
-                </button>
-              ))}
+            {/* Main Title and Sub-tabs */}
+            <div>
+              <h3 className="text-white text-xl lg:text-2xl font-medium mb-3">Your Board</h3>
+              
+              {/* Sub-tabs Navigation - Heart only shows on active tab */}
+              <div className="flex items-center gap-6 lg:gap-8">
+                {curatedTabs.map((tab) => (
+                  <button 
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`group flex items-center gap-2 text-base font-medium transition-all duration-300 ${
+                      activeTab === tab.id 
+                        ? 'text-[#CBD5FF]' 
+                        : 'text-white/60 hover:text-white/80'
+                    }`}
+                  >
+                    {/* Heart icon - only shows when active */}
+                    <span 
+                      className={`transition-all duration-500 ${
+                        activeTab === tab.id 
+                          ? 'scale-110 opacity-100 rotate-0' 
+                          : 'scale-75 opacity-0 -rotate-12'
+                      }`}
+                    >
+                      ❤️
+                    </span>
+                    
+                    {/* Tab label */}
+                    <span className="relative">
+                      {tab.label}
+                      
+                      {/* Subtle underline animation for active tab */}
+                      <span 
+                        className={`absolute -bottom-1 left-0 h-0.5 bg-[#CBD5FF] transition-all duration-300 ${
+                          activeTab === tab.id ? 'w-full' : 'w-0'
+                        }`}
+                      />
+                    </span>
+                  </button>
+                ))}
+              </div>
             </div>
             
             <div className="flex-1 h-px bg-white/20 ml-4"></div>

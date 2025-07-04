@@ -10,9 +10,18 @@ const DetailView = ({
   isLocked, 
   onScroll, 
   filterType, 
-  onFilterChange 
+  onFilterChange,
+  onCuratedTripsClick, // NEW PROP for handling curated trips
+  restoreSubTab // NEW PROP for restoring sub-tab
 }) => {
   const [activeSubTab, setActiveSubTab] = useState('overview');
+  
+  // Restore sub-tab when coming back from curated trips
+  React.useEffect(() => {
+    if (restoreSubTab) {
+      setActiveSubTab(restoreSubTab);
+    }
+  }, [restoreSubTab]);
   
   // Simple check - if it has sourceType, use it, otherwise guess from ID
   const isDestination = experience.sourceType === 'destinations' || experience.id >= 13;
@@ -345,7 +354,7 @@ const DetailView = ({
             <div className="flex-1 h-px bg-white/20 ml-4"></div>
           </div>
           
-          {/* Curated Trips Button */}
+          {/* Curated Trips Button - UPDATED with proper click handler */}
           <button
             className="flex items-center gap-2 px-4 py-3 rounded-2xl text-sm font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg mr-4"
             style={{
@@ -353,9 +362,7 @@ const DetailView = ({
               backdropFilter: 'blur(10px)',
               border: '1px solid rgba(255, 255, 255, 0.1)',
             }}
-            onClick={() => {
-              console.log('Curated Trips clicked');
-            }}
+            onClick={() => onCuratedTripsClick(activeSubTab)} // Pass current sub-tab
           >
             <span className="text-red-400 text-base">❤️</span>
             <span className="text-white/80 hover:text-[#CBD5FF] transition-colors duration-300">
