@@ -5,7 +5,7 @@ import TabNavigation from './TabNavigation';
 import FilterControls from './FilterControls';
 import CardGrid from './CardGrid';
 import DetailView from './DetailView';
-
+import { destinations } from '../data/destinations';
 
 const ContentManager = ({ isLocked, collectionsPos, windowWidth, windowHeight, scrollY }) => {
   const [activeTab, setActiveTab] = useState('inspirations');
@@ -31,8 +31,8 @@ const ContentManager = ({ isLocked, collectionsPos, windowWidth, windowHeight, s
   ];
 
   const destinationCards = [
-    { id: 13, title: 'Kenya', type: 'savannah', gradient: 'linear-gradient(135deg, rgba(245, 158, 11, 0.6), rgba(251, 146, 60, 0.6))', description: 'Endless plains and incredible wildlife in the heart of East Africa' },
-    { id: 14, title: 'Tanzania', type: 'savannah', gradient: 'linear-gradient(135deg, rgba(34, 197, 94, 0.6), rgba(5, 150, 105, 0.6))', description: 'Serengeti plains and Ngorongoro Crater adventures' },
+   // { id: 13, title: 'Kenya', type: 'savannah', gradient: 'linear-gradient(135deg, rgba(245, 158, 11, 0.6), rgba(251, 146, 60, 0.6))', description: 'Endless plains and incredible wildlife in the heart of East Africa' },
+    //{ id: 14, title: 'Tanzania', type: 'savannah', gradient: 'linear-gradient(135deg, rgba(34, 197, 94, 0.6), rgba(5, 150, 105, 0.6))', description: 'Serengeti plains and Ngorongoro Crater adventures' },
     { id: 15, title: 'South Africa', type: 'savannah', gradient: 'linear-gradient(135deg, rgba(147, 51, 234, 0.6), rgba(99, 102, 241, 0.6))', description: 'Wine lands, safaris, and diverse landscapes' },
     { id: 16, title: 'Zambia', type: 'savannah', gradient: 'linear-gradient(135deg, rgba(59, 130, 246, 0.6), rgba(14, 165, 233, 0.6))', description: 'Victoria Falls and pristine wilderness experiences' },
     { id: 17, title: 'Seychelles', type: 'sea', gradient: 'linear-gradient(135deg, rgba(6, 182, 212, 0.6), rgba(59, 130, 246, 0.6))', description: 'Paradise islands with pristine beaches and crystal waters' },
@@ -40,10 +40,10 @@ const ContentManager = ({ isLocked, collectionsPos, windowWidth, windowHeight, s
   ];
 
   // Get current cards based on active tab and filter
-  const getCurrentCards = () => {
-    const cards = activeTab === 'inspirations' ? inspirationCards : destinationCards;
+    const getCurrentCards = () => {
+    const cards = activeTab === 'inspirations' ? inspirationCards : destinations;
     return filterType === 'all' ? cards : cards.filter(card => card.type === filterType);
-  };
+    };
 
   // Event handlers
   const handleCardToggle = (cardId) => {

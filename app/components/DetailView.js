@@ -85,24 +85,23 @@ const DetailView = ({
             <div className="flex-1 h-px bg-white/20 ml-4"></div>
           </div>
           
-          {/* Filter controls */}
-        <button
-        className="flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg mr-4"
-        style={{
-            background: 'rgba(255, 255, 255, 0.1)',
-            backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-        }}
-        onClick={() => {
-            // Handle curated trips click - you can add functionality later
-            console.log('Curated Trips clicked');
-        }}
-        >
-        <span className="text-red-400 text-base">❤️</span>
-        <span className="text-white/80 hover:text-[#CBD5FF] transition-colors duration-300">
-            Curated Trips
-        </span>
-        </button>
+          {/* Curated Trips Button */}
+          <button
+            className="flex items-center gap-2 px-4 py-3 rounded-2xl text-sm font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg mr-4"
+            style={{
+              background: 'rgba(255, 255, 255, 0.1)',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+            }}
+            onClick={() => {
+              console.log('Curated Trips clicked');
+            }}
+          >
+            <span className="text-red-400 text-base">❤️</span>
+            <span className="text-white/80 hover:text-[#CBD5FF] transition-colors duration-300">
+              Curated Trips
+            </span>
+          </button>
         </div>
       </div>
       
@@ -115,20 +114,34 @@ const DetailView = ({
         }}
       >
         <div className="p-4 lg:p-6">
-          {/* Hero Image */}
+          {/* Hero Image - FIXED VERSION */}
           <div 
             className="relative rounded-2xl overflow-hidden h-80 lg:h-96 xl:h-80 2xl:h-[500px] mb-3"
-            style={{ background: experience.gradient }}
+            style={{
+              backgroundImage: experience.heroImage 
+                ? `url(${experience.heroImage})`
+                : experience.gradient,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat'
+            }}
           >
-            <div className="absolute inset-0 bg-black/40"></div>
+            {/* Stronger gradient overlay for better text readability */}
+            <div 
+              className="absolute bottom-0 left-0 right-0 h-3/4"
+              style={{
+                background: 'linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.8) 100%)'
+              }}
+            />
+            
             <div className="absolute inset-0 flex items-end p-6 lg:p-8">
-              <div className="text-white flex-1">
+              <div className="text-white flex-1 relative z-10">
                 <h2 className="text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold mb-3">{experience.title}</h2>
                 <p className="text-base lg:text-lg xl:text-lg 2xl:text-xl text-white/90 max-w-2xl leading-relaxed">
-                  {experience.description}
+                  {experience.content?.overview?.heroDescription || experience.description}
                 </p>
               </div>
-              <div className="xl:block 2xl:hidden ml-4">
+              <div className="xl:block 2xl:hidden ml-4 relative z-10">
                 <div className="flex flex-col items-center">
                   <svg 
                     className="w-6 h-6 text-white/40 animate-bounce" 
@@ -146,10 +159,6 @@ const DetailView = ({
                 </div>
               </div>
             </div>
-            <div className="absolute top-4 right-4 px-3 py-1 rounded-lg text-xs text-white/60"
-                style={{ background: 'rgba(0, 0, 0, 0.5)' }}>
-              📸 {isDestination ? 'Destination' : 'Inspiration'} Image Placeholder
-            </div>
           </div>
           
           {/* Description */}
@@ -162,9 +171,11 @@ const DetailView = ({
                 boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
               }}
             >
-              {isDestination 
-                ? `From the sweeping savannahs of the Mara to the quiet coastline of Lamu, ${experience.title} offers big game safaris, private conservancies, rich Swahili culture, and fly-in access to remote, luxury camps. It's one of the most diverse and well-connected destinations in Africa—ideal for combining wildlife, culture, and coast in a single trip.`
-                : `Experience ${experience.title} across Africa's most spectacular destinations. From expert guides to premium accommodations, every detail is crafted to deliver an exceptional ${experience.title.toLowerCase()} experience.`
+              {experience.content?.overview?.mainDescription || 
+               (isDestination 
+                 ? `From the sweeping savannahs of the Mara to the quiet coastline of Lamu, ${experience.title} offers big game safaris, private conservancies, rich Swahili culture, and fly-in access to remote, luxury camps.`
+                 : `Experience ${experience.title} across Africa's most spectacular destinations. From expert guides to premium accommodations, every detail is crafted to deliver an exceptional experience.`
+               )
               }
             </div>
           </div>
@@ -172,15 +183,30 @@ const DetailView = ({
           {/* Tab Content */}
           <div className="mb-3">
             {activeSubTab === 'overview' && (
-              <div className="text-white">
+              <div className="text-white space-y-6">
                 <h3 className="text-xl mb-4">{experience.title} Overview</h3>
-                <p className="text-white/80">Overview content for {activeSubTab} tab...</p>
+                <p className="text-white/80 leading-relaxed">
+                  {experience.content?.overview?.mainDescription || `Overview content for ${experience.title}`}
+                </p>
+                
+                {experience.content?.overview?.highlights && (
+                  <div>
+                    <h4 className="text-lg mb-3 text-[#CBD5FF]">Highlights</h4>
+                    <ul className="space-y-2">
+                      {experience.content.overview.highlights.map((highlight, index) => (
+                        <li key={index} className="text-white/80 flex items-start gap-2">
+                          <span className="text-[#CBD5FF] mt-1">•</span>
+                          {highlight}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
             )}
             
             {activeSubTab === 'experiences' && isDestination && (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {/* Left: Placeholder for Grid */}
                 <div className="h-96">
                   <div 
                     className="h-full rounded-2xl flex items-center justify-center"
@@ -198,7 +224,6 @@ const DetailView = ({
                   </div>
                 </div>
                 
-                {/* Right: Placeholder for Map */}
                 <div>
                   <div 
                     className="h-96 rounded-2xl flex items-center justify-center"
