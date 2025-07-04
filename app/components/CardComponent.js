@@ -79,17 +79,17 @@ const CardComponent = ({
           {isHovered && (
             <div className="relative hover-content entering">
               <div 
-                className="absolute -inset-x-2 -inset-y-1 rounded-lg fade-in-slow"
+                className="absolute -inset-x-2 -inset-y-3 rounded-lg fade-in-slow"
                 style={{
                   background: 'linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent)',
                   backdropFilter: 'blur(8px)',
                 }}
               />
               <div className="relative z-10">
-                <p className="text-white/90 text-sm mb-3 leading-relaxed slide-in-slow">
+                <p className="text-white/90 text-sm mb-4 leading-relaxed slide-in-slow">
                   {card.description}
                 </p>
-                <div className="flex gap-2 slide-in-slow">
+                <div className="flex gap-2 slide-in-slow" style={{ transform: 'translateY(-8px)' }}>
                   <button 
                     className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg"
                     style={{
