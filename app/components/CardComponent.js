@@ -28,6 +28,18 @@ const CardComponent = ({
     }
   `;
 
+  // FIXED: Use heroImage if available, otherwise fall back to gradient
+  const cardStyle = card.heroImage 
+    ? {
+        backgroundImage: `url(${card.heroImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }
+    : {
+        background: card.gradient
+      };
+
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: animationCSS }} />
@@ -35,12 +47,18 @@ const CardComponent = ({
         className={`relative overflow-hidden rounded-2xl h-48 md:h-56 lg:h-52 xl:h-56 2xl:h-64 cursor-pointer transition-all duration-300 ${
           isSelected ? 'ring-4 ring-[#CBD5FF] ring-opacity-60 scale-[1.02] shadow-2xl' : 'hover:scale-[1.02]'
         }`}
-        style={{ background: card.gradient }}
+        style={cardStyle}
         onClick={() => onToggle(card.id)}
         onMouseEnter={() => onHover(card.id)}
         onMouseLeave={() => onHover(null)}
       >
-        <div className="absolute inset-0 bg-black/40"></div>
+        {/* Gradient overlay for better text readability - stronger at bottom */}
+        <div 
+          className="absolute inset-0"
+          style={{
+            background: 'linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.6) 100%)'
+          }}
+        ></div>
         
         {isSelected && (
           <div 
@@ -61,7 +79,7 @@ const CardComponent = ({
           {isHovered && (
             <div className="relative hover-content entering">
               <div 
-                className="absolute -inset-2 rounded-lg fade-in-slow"
+                className="absolute -inset-x-2 -inset-y-1 rounded-lg fade-in-slow"
                 style={{
                   background: 'linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent)',
                   backdropFilter: 'blur(8px)',

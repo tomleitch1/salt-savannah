@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState } from 'react';
+import ExpandableGrid from './ExpandableGrid';
+import KenyaMap from './KenyaMap';
 
 const DetailView = ({ 
   experience, 
@@ -44,6 +46,264 @@ const DetailView = ({
       background: rgba(250, 225, 216, 0.6);
     }
   `;
+
+  // THIS IS THE KEY - RENDER DIFFERENT CONTENT BASED ON ACTIVE TAB
+  const renderTabContent = () => {
+    // DESTINATIONS - Full implementation for Overview, placeholders for others
+    if (isDestination) {
+      switch(activeSubTab) {
+        case 'overview':
+          return (
+            <div className="space-y-6">
+              {/* Hero Image - INCREASED HEIGHT */}
+              <div 
+                className="relative rounded-2xl overflow-hidden h-96 lg:h-[390px] xl:h-[390px] 2xl:h-[500px] mb-3"
+                style={{
+                  backgroundImage: experience.heroImage 
+                    ? `url(${experience.heroImage})`
+                    : experience.gradient,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat'
+                }}
+              >
+                <div 
+                  className="absolute bottom-0 left-0 right-0 h-3/4"
+                  style={{
+                    background: 'linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.8) 100%)'
+                  }}
+                />
+                
+                <div className="absolute inset-0 flex items-end p-6 lg:p-8">
+                  <div className="text-white flex-1 relative z-10">
+                    <h2 className="text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold mb-3">{experience.title}</h2>
+                    <p className="text-base lg:text-lg xl:text-lg 2xl:text-xl text-white/90 max-w-2xl leading-relaxed">
+                      {experience.content?.overview?.heroDescription || experience.description}
+                    </p>
+                  </div>
+                  <div className="xl:block 2xl:hidden ml-4 relative z-10">
+                    <div className="flex flex-col items-center">
+                      <svg 
+                        className="w-6 h-6 text-white/40 animate-bounce" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        viewBox="0 0 24 24"
+                        style={{
+                          animationDuration: '2s',
+                          animationIterationCount: 'infinite'
+                        }}
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                      </svg>
+                      <span className="text-white/30 text-xs mt-1 whitespace-nowrap">scroll to explore</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Overview Description - CMS Driven */}
+              <div className="mb-6">
+                <div 
+                  className="px-4 py-3 rounded-2xl text-sm text-white/80 leading-relaxed"
+                  style={{ 
+                    background: 'rgba(0, 0, 0, 0.25)',
+                    backdropFilter: 'blur(20px)',
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
+                  }}
+                >
+                  {/* CMS Content: experience.content.overview.description */}
+                  {experience.content?.overview?.description || 
+                   `From the sweeping savannahs of the Mara to the quiet coastline of Lamu, ${experience.title} offers big game safaris, private conservancies, rich Swahili culture, and fly-in access to remote, luxury camps.`
+                  }
+                </div>
+              </div>
+
+              {/* Interactive Experiences Section - DESTINATIONS OVERVIEW FOCUS */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Left - Expandable Grid */}
+                <div className="h-96">
+                  <ExpandableGrid />
+                </div>
+                
+                {/* Right - Map */}
+                <div className="space-y-4">
+                  <KenyaMap />
+                </div>
+              </div>
+            </div>
+          );
+
+        case 'experiences':
+          return (
+            <div className="space-y-6">
+              <div 
+                className="h-96 rounded-2xl flex items-center justify-center"
+                style={{
+                  background: 'rgba(0, 0, 0, 0.3)',
+                  backdropFilter: 'blur(15px)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)'
+                }}
+              >
+                <div className="text-white/60 text-center">
+                  <div className="text-2xl mb-2">🎯</div>
+                  <div className="text-sm">Experiences Tab</div>
+                  <div className="text-xs opacity-60">TBC - Layout & CMS Integration</div>
+                </div>
+              </div>
+            </div>
+          );
+
+        case 'properties':
+          return (
+            <div className="space-y-6">
+              <div 
+                className="h-96 rounded-2xl flex items-center justify-center"
+                style={{
+                  background: 'rgba(0, 0, 0, 0.3)',
+                  backdropFilter: 'blur(15px)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)'
+                }}
+              >
+                <div className="text-white/60 text-center">
+                  <div className="text-2xl mb-2">🏨</div>
+                  <div className="text-sm">Properties Tab</div>
+                  <div className="text-xs opacity-60">TBC - Layout & CMS Integration</div>
+                </div>
+              </div>
+            </div>
+          );
+
+        case 'locations':
+          return (
+            <div className="space-y-6">
+              <div 
+                className="h-96 rounded-2xl flex items-center justify-center"
+                style={{
+                  background: 'rgba(0, 0, 0, 0.3)',
+                  backdropFilter: 'blur(15px)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)'
+                }}
+              >
+                <div className="text-white/60 text-center">
+                  <div className="text-2xl mb-2">📍</div>
+                  <div className="text-sm">Locations Tab</div>
+                  <div className="text-xs opacity-60">TBC - Layout & CMS Integration</div>
+                </div>
+              </div>
+            </div>
+          );
+
+        default:
+          return (
+            <div className="text-white">
+              <p>Content for {activeSubTab} tab...</p>
+            </div>
+          );
+      }
+    }
+    
+    // INSPIRATIONS - Hero + placeholder content only
+    else {
+      switch(activeSubTab) {
+        case 'overview':
+          return (
+            <div className="space-y-6">
+              {/* Hero Image - Same increased size for inspirations */}
+              <div 
+                className="relative rounded-2xl overflow-hidden h-96 lg:h-[390px] xl:h-[390px] 2xl:h-[500px] mb-6"
+                style={{
+                  backgroundImage: experience.heroImage 
+                    ? `url(${experience.heroImage})`
+                    : experience.gradient,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  backgroundRepeat: 'no-repeat'
+                }}
+              >
+                <div 
+                  className="absolute bottom-0 left-0 right-0 h-3/4"
+                  style={{
+                    background: 'linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.8) 100%)'
+                  }}
+                />
+                
+                <div className="absolute inset-0 flex items-end p-6 lg:p-8">
+                  <div className="text-white flex-1 relative z-10">
+                    <h2 className="text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold mb-3">{experience.title}</h2>
+                    <p className="text-base lg:text-lg xl:text-lg 2xl:text-xl text-white/90 max-w-2xl leading-relaxed">
+                      {experience.content?.overview?.heroDescription || experience.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Placeholder for inspiration content */}
+              <div 
+                className="h-64 rounded-2xl flex items-center justify-center"
+                style={{
+                  background: 'rgba(0, 0, 0, 0.3)',
+                  backdropFilter: 'blur(15px)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)'
+                }}
+              >
+                <div className="text-white/60 text-center">
+                  <div className="text-2xl mb-2">✨</div>
+                  <div className="text-sm">Inspiration Overview Content</div>
+                  <div className="text-xs opacity-60">TBC - Design & Layout to be determined</div>
+                </div>
+              </div>
+            </div>
+          );
+
+        case 'locations':
+          return (
+            <div className="space-y-6">
+              <div 
+                className="h-96 rounded-2xl flex items-center justify-center"
+                style={{
+                  background: 'rgba(0, 0, 0, 0.3)',
+                  backdropFilter: 'blur(15px)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)'
+                }}
+              >
+                <div className="text-white/60 text-center">
+                  <div className="text-2xl mb-2">📍</div>
+                  <div className="text-sm">Our Favourite Locations</div>
+                  <div className="text-xs opacity-60">TBC - Design & CMS Integration</div>
+                </div>
+              </div>
+            </div>
+          );
+
+        case 'properties':
+          return (
+            <div className="space-y-6">
+              <div 
+                className="h-96 rounded-2xl flex items-center justify-center"
+                style={{
+                  background: 'rgba(0, 0, 0, 0.3)',
+                  backdropFilter: 'blur(15px)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)'
+                }}
+              >
+                <div className="text-white/60 text-center">
+                  <div className="text-2xl mb-2">🏨</div>
+                  <div className="text-sm">Our Favourite Properties</div>
+                  <div className="text-xs opacity-60">TBC - Design & CMS Integration</div>
+                </div>
+              </div>
+            </div>
+          );
+
+        default:
+          return (
+            <div className="text-white">
+              <p>Content for {activeSubTab} tab...</p>
+            </div>
+          );
+      }
+    }
+  };
 
   return (
     <div className="h-full flex flex-col">
@@ -105,7 +365,7 @@ const DetailView = ({
         </div>
       </div>
       
-      {/* Content */}
+      {/* Content - THIS IS WHERE THE MAGIC HAPPENS */}
       <div 
         className={`flex-1 custom-scrollbar ${isLocked ? 'overflow-y-auto' : 'overflow-visible'}`}
         onScroll={onScroll}
@@ -114,153 +374,8 @@ const DetailView = ({
         }}
       >
         <div className="p-4 lg:p-6">
-          {/* Hero Image - FIXED VERSION */}
-          <div 
-            className="relative rounded-2xl overflow-hidden h-80 lg:h-96 xl:h-80 2xl:h-[500px] mb-3"
-            style={{
-              backgroundImage: experience.heroImage 
-                ? `url(${experience.heroImage})`
-                : experience.gradient,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              backgroundRepeat: 'no-repeat'
-            }}
-          >
-            {/* Stronger gradient overlay for better text readability */}
-            <div 
-              className="absolute bottom-0 left-0 right-0 h-3/4"
-              style={{
-                background: 'linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.8) 100%)'
-              }}
-            />
-            
-            <div className="absolute inset-0 flex items-end p-6 lg:p-8">
-              <div className="text-white flex-1 relative z-10">
-                <h2 className="text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold mb-3">{experience.title}</h2>
-                <p className="text-base lg:text-lg xl:text-lg 2xl:text-xl text-white/90 max-w-2xl leading-relaxed">
-                  {experience.content?.overview?.heroDescription || experience.description}
-                </p>
-              </div>
-              <div className="xl:block 2xl:hidden ml-4 relative z-10">
-                <div className="flex flex-col items-center">
-                  <svg 
-                    className="w-6 h-6 text-white/40 animate-bounce" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
-                    style={{
-                      animationDuration: '2s',
-                      animationIterationCount: 'infinite'
-                    }}
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                  </svg>
-                  <span className="text-white/30 text-xs mt-1 whitespace-nowrap">scroll to explore</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          {/* Description */}
-          <div className="mb-12">
-            <div 
-              className="px-4 py-3 rounded-2xl text-sm text-white/80 leading-relaxed"
-              style={{ 
-                background: 'rgba(0, 0, 0, 0.25)',
-                backdropFilter: 'blur(20px)',
-                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
-              }}
-            >
-              {experience.content?.overview?.mainDescription || 
-               (isDestination 
-                 ? `From the sweeping savannahs of the Mara to the quiet coastline of Lamu, ${experience.title} offers big game safaris, private conservancies, rich Swahili culture, and fly-in access to remote, luxury camps.`
-                 : `Experience ${experience.title} across Africa's most spectacular destinations. From expert guides to premium accommodations, every detail is crafted to deliver an exceptional experience.`
-               )
-              }
-            </div>
-          </div>
-
-          {/* Tab Content */}
-          <div className="mb-3">
-            {activeSubTab === 'overview' && (
-              <div className="text-white space-y-6">
-                <h3 className="text-xl mb-4">{experience.title} Overview</h3>
-                <p className="text-white/80 leading-relaxed">
-                  {experience.content?.overview?.mainDescription || `Overview content for ${experience.title}`}
-                </p>
-                
-                {experience.content?.overview?.highlights && (
-                  <div>
-                    <h4 className="text-lg mb-3 text-[#CBD5FF]">Highlights</h4>
-                    <ul className="space-y-2">
-                      {experience.content.overview.highlights.map((highlight, index) => (
-                        <li key={index} className="text-white/80 flex items-start gap-2">
-                          <span className="text-[#CBD5FF] mt-1">•</span>
-                          {highlight}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-            )}
-            
-            {activeSubTab === 'experiences' && isDestination && (
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div className="h-96">
-                  <div 
-                    className="h-full rounded-2xl flex items-center justify-center"
-                    style={{
-                      background: 'rgba(0, 0, 0, 0.3)',
-                      backdropFilter: 'blur(15px)',
-                      border: '1px solid rgba(255, 255, 255, 0.1)'
-                    }}
-                  >
-                    <div className="text-white/60 text-center">
-                      <div className="text-2xl mb-2">🎯</div>
-                      <div className="text-sm">Expandable Grid</div>
-                      <div className="text-xs opacity-60">(Experiences)</div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div>
-                  <div 
-                    className="h-96 rounded-2xl flex items-center justify-center"
-                    style={{
-                      background: 'rgba(0, 0, 0, 0.3)',
-                      backdropFilter: 'blur(15px)',
-                      border: '1px solid rgba(255, 255, 255, 0.1)'
-                    }}
-                  >
-                    <div className="text-white/60 text-center">
-                      <div className="text-2xl mb-2">🗺️</div>
-                      <div className="text-sm">{experience.title} Map</div>
-                      <div className="text-xs opacity-60">(Interactive Map)</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {activeSubTab === 'properties' && (
-              <div className="text-white">
-                <h3 className="text-xl mb-4">
-                  {isDestination ? `Properties in ${experience.title}` : `Our Favourite Properties for ${experience.title}`}
-                </h3>
-                <p className="text-white/80">Properties content for {activeSubTab} tab...</p>
-              </div>
-            )}
-
-            {activeSubTab === 'locations' && (
-              <div className="text-white">
-                <h3 className="text-xl mb-4">
-                  {isDestination ? `Locations within ${experience.title}` : `Our Favourite Locations for ${experience.title}`}
-                </h3>
-                <p className="text-white/80">Locations content for {activeSubTab} tab...</p>
-              </div>
-            )}
-          </div>
+          {/* This calls the renderTabContent function which shows different content based on activeSubTab */}
+          {renderTabContent()}
         </div>
       </div>
     </div>

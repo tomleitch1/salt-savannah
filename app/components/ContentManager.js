@@ -14,7 +14,7 @@ const ContentManager = ({ isLocked, collectionsPos, windowWidth, windowHeight, s
   const [hoveredCard, setHoveredCard] = useState(null);
   const [selectedExperience, setSelectedExperience] = useState(null);
 
-  // Sample data - same as before
+  // Sample inspiration data (unchanged)
   const inspirationCards = [
     { id: 1, title: 'Luxury Safari', type: 'savannah', gradient: 'linear-gradient(135deg, rgba(245, 158, 11, 0.4), rgba(251, 146, 60, 0.4))', description: 'Exclusive camps with unparalleled service in pristine wilderness' },
     { id: 2, title: 'Wilderness Adventure', type: 'savannah', gradient: 'linear-gradient(135deg, rgba(34, 197, 94, 0.4), rgba(5, 150, 105, 0.4))', description: 'Remote locations where nature reigns supreme and wildlife roams free' },
@@ -30,20 +30,15 @@ const ContentManager = ({ isLocked, collectionsPos, windowWidth, windowHeight, s
     { id: 12, title: 'Sunset Cruises', type: 'sea', gradient: 'linear-gradient(135deg, rgba(251, 146, 60, 0.4), rgba(252, 211, 77, 0.4))', description: 'Romantic evenings on the Indian Ocean' }
   ];
 
-  const destinationCards = [
-   // { id: 13, title: 'Kenya', type: 'savannah', gradient: 'linear-gradient(135deg, rgba(245, 158, 11, 0.6), rgba(251, 146, 60, 0.6))', description: 'Endless plains and incredible wildlife in the heart of East Africa' },
-    //{ id: 14, title: 'Tanzania', type: 'savannah', gradient: 'linear-gradient(135deg, rgba(34, 197, 94, 0.6), rgba(5, 150, 105, 0.6))', description: 'Serengeti plains and Ngorongoro Crater adventures' },
-    { id: 15, title: 'South Africa', type: 'savannah', gradient: 'linear-gradient(135deg, rgba(147, 51, 234, 0.6), rgba(99, 102, 241, 0.6))', description: 'Wine lands, safaris, and diverse landscapes' },
-    { id: 16, title: 'Zambia', type: 'savannah', gradient: 'linear-gradient(135deg, rgba(59, 130, 246, 0.6), rgba(14, 165, 233, 0.6))', description: 'Victoria Falls and pristine wilderness experiences' },
-    { id: 17, title: 'Seychelles', type: 'sea', gradient: 'linear-gradient(135deg, rgba(6, 182, 212, 0.6), rgba(59, 130, 246, 0.6))', description: 'Paradise islands with pristine beaches and crystal waters' },
-    { id: 18, title: 'Zanzibar', type: 'sea', gradient: 'linear-gradient(135deg, rgba(236, 72, 153, 0.6), rgba(244, 63, 94, 0.6))', description: 'Spice islands with rich culture and stunning coastlines' }
-  ];
+  // FIXED: Use actual destinations data from CMS instead of hardcoded array
+  // Remove the hardcoded destinationCards and use imported destinations data
+  const destinationCards = destinations;
 
   // Get current cards based on active tab and filter
-    const getCurrentCards = () => {
-    const cards = activeTab === 'inspirations' ? inspirationCards : destinations;
+  const getCurrentCards = () => {
+    const cards = activeTab === 'inspirations' ? inspirationCards : destinationCards;
     return filterType === 'all' ? cards : cards.filter(card => card.type === filterType);
-    };
+  };
 
   // Event handlers
   const handleCardToggle = (cardId) => {
