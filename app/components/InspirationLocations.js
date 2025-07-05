@@ -1,6 +1,6 @@
 "use client";
 
-const InspirationLocations = ({ inspiration }) => {
+const InspirationLocations = ({ experience }) => {
   return (
     <div className="space-y-6">
       <div 
@@ -13,18 +13,13 @@ const InspirationLocations = ({ inspiration }) => {
       >
         <div className="text-white/60 text-center">
           <div className="text-2xl mb-2">📍</div>
-          <div className="text-sm">Our Favourite Locations for {inspiration.title}</div>
+          <div className="text-lg mb-2">Our Favourite Locations for {experience?.title || 'this experience'}</div>
+          <div className="text-sm opacity-80 max-w-md mb-4">
+            Curated destinations perfect for this inspiration type
+          </div>
           <div className="text-xs opacity-60">TBC - Design & CMS Integration</div>
         </div>
       </div>
-      
-      {/* TODO: This will become:
-          - Curated destinations perfect for this inspiration type
-          - Location-specific reasons why it's ideal for this experience
-          - Seasonal recommendations for optimal timing
-          - Success stories from each location
-          - CMS-driven content: inspiration.content.locations
-      */}
     </div>
   );
 };

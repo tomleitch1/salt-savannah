@@ -25,11 +25,11 @@ const InspirationDetailView = ({
     }
   }, [restoreSubTab, experience]);
 
-  // Inspiration tabs configuration
+  // Inspiration tabs configuration - FIXED LABELS
   const inspirationTabs = [
     { id: 'overview', label: 'Overview' },
-    { id: 'locations', label: 'Our Favourite Locations' },
-    { id: 'properties', label: 'Our Favourite Properties' }
+    { id: 'locations', label: 'Locations' },
+    { id: 'properties', label: 'Properties' }
   ];
 
   const customScrollbarCSS = `
