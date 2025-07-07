@@ -109,7 +109,7 @@ const PageLayoutManager = ({ children }) => {
           overflow: collectionsPos.overflow
         }}
       >
-        <div className={`max-w-7xl mx-auto ${isLocked ? 'h-full' : ''}`}>
+        <div className={`max-w-7xl 2xl:max-w-[1600px] mx-auto ${isLocked ? 'h-full' : ''}`}>
           <div 
             className={`relative rounded-2xl lg:rounded-3xl ${isLocked ? 'h-full' : ''} transform hover:scale-[1.02] transition-all duration-300`}
             style={{

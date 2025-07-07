@@ -40,8 +40,17 @@ try {
   BookingBlock = () => <div className="text-red-400">BookingBlock import failed</div>;
 }
 
-const GridCard = ({ section, isExpanded = false, onToggle }) => {
+const GridCard = ({ section, isExpanded = false, onToggle, isFullWidth = false, onFullWidthToggle }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(0);
+
+  // Check window width to determine if full-width option should be available
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Reset hover state when expanded state changes
   useEffect(() => {
@@ -49,6 +58,9 @@ const GridCard = ({ section, isExpanded = false, onToggle }) => {
       setIsHovered(false);
     }
   }, [isExpanded]);
+
+  // Check if we should show full-width option (lg and above)
+  const showFullWidthOption = windowWidth >= 1024; // lg breakpoint
 
   // Render appropriate content block based on type
   const renderExpandedContent = () => {
@@ -93,14 +105,43 @@ const GridCard = ({ section, isExpanded = false, onToggle }) => {
         {/* Expanded Header */}
         <div className="flex items-center justify-between p-6 border-b border-white/10">
           <h4 className="text-[#FAE1D8] text-xl font-semibold flex-shrink-0">{section.title}</h4>
-          <button 
-            onClick={() => onToggle(section.id)}
-            className="text-[#FAE1D8]/70 hover:text-[#FAE1D8] transition-all duration-300 flex-shrink-0 ml-4"
-          >
-            <svg className="w-5 h-5 rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-            </svg>
-          </button>
+          
+          <div className="flex items-center gap-3">
+            {/* Full Width Toggle Button - Only show on lg+ screens and when onFullWidthToggle is provided */}
+            {showFullWidthOption && onFullWidthToggle && (
+              <button 
+                onClick={onFullWidthToggle}
+                className="text-[#FAE1D8]/70 hover:text-[#FAE1D8] transition-all duration-300 flex-shrink-0 p-1 rounded hover:bg-white/10"
+                title={isFullWidth ? "Exit full width" : "Expand to full width"}
+              >
+                <svg 
+                  className={`w-5 h-5 transition-transform duration-300`} 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  {isFullWidth ? (
+                    // Compress icon (arrows pointing inward)
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 9V4.5M9 9H4.5M9 9L3.5 3.5M15 9h4.5M15 9V4.5M15 9l5.5-5.5M9 15v4.5M9 15H4.5M9 15l-5.5 5.5M15 15h4.5M15 15v4.5m0-4.5l5.5 5.5" />
+                  ) : (
+                    // Expand icon (arrows pointing outward)
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l4 4m12-4v4m0-4h-4m4 0l-4 4M4 16v4m0 0h4m-4 0l4-4m12 4l-4-4m4 4v-4m0 4h-4" />
+                  )}
+                </svg>
+              </button>
+            )}
+            
+            {/* Close Button */}
+            <button 
+              onClick={() => onToggle(section.id)}
+              className="text-[#FAE1D8]/70 hover:text-[#FAE1D8] transition-all duration-300 flex-shrink-0 p-1 rounded hover:bg-white/10"
+              title="Close"
+            >
+              <svg className="w-5 h-5 rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              </svg>
+            </button>
+          </div>
         </div>
 
         {/* Expanded Content */}
@@ -142,9 +183,19 @@ const GridCard = ({ section, isExpanded = false, onToggle }) => {
       >
         {/* Dark overlay for text readability */}
         <div 
-          className="absolute inset-0 rounded-xl"
+          className="absolute inset-2 rounded-xl"
           style={{
-            background: 'linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.8) 100%)'
+            background: 'linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.4) 70%, rgba(0,0,0,0.8) 100%)',
+            transition: 'background 200ms ease-in-out'
+          }}
+        />
+
+        {/* Hover overlay */}
+        <div 
+          className="absolute inset-2 rounded-xl opacity-0 group-hover:opacity-100"
+          style={{
+            background: 'rgba(0, 0, 0, 0.6)',
+            transition: 'opacity 200ms ease-in-out'
           }}
         />
 

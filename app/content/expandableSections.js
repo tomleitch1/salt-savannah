@@ -156,7 +156,7 @@ export const expandableSections = {
       type: "seasonal",
       summary: "Track wildlife movements month-by-month.",
       detail: "Includes weather patterns, migration timings, and calving season data",
-      coverImage: "/demopic.jpg",
+      coverImage: "/demopic2.jpg",
       gradient: "linear-gradient(135deg, rgba(101, 163, 13, 0.3), rgba(54, 83, 20, 0.35))",
       content: {
         destination: "Kenya",
@@ -174,7 +174,7 @@ export const expandableSections = {
       type: "gallery",
       summary: "Explore dramatic landscapes, camps, and wildlife.",
       detail: "A curated collection of Kenya's most spectacular destinations",
-      coverImage: "/demopic.jpg",
+      coverImage: "/demopic3.jpg",
       gradient: "linear-gradient(135deg, rgba(79, 70, 229, 0.3), rgba(67, 56, 202, 0.35))",
       content: {
         featuredImage: {
@@ -238,7 +238,7 @@ export const expandableSections = {
       type: "booking",
       summary: "Ready to go? Let's start crafting your journey.",
       detail: "Talk to a travel advisor and start building your perfect itinerary tailored to your interests and timeline.",
-      coverImage: "/demopic.jpg",
+      coverImage: "/demopic4.jpg",
       gradient: "linear-gradient(135deg, rgba(75, 85, 99, 0.3), rgba(55, 65, 81, 0.35))",
       content: {
         contactInfo: {

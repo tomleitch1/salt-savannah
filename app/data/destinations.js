@@ -9,7 +9,7 @@ export const destinations = [
     
     content: {
       overview: {
-        heroDescription: 'From the endless savannahs of the Maasai Mara to the pristine beaches of the Swahili coast, Kenya offers unparalleled diversity.',
+        heroDescription: 'Endless plains and incredible wildlife in the heart of East Africa',
         description: 'Kenya stands as one of Africa\'s premier safari destinations, offering everything from the Great Migration spectacle to intimate cultural encounters with the Maasai people. From sweeping savannahs to quiet coastlines, Kenya offers big game safaris, private conservancies, rich Swahili culture, and fly-in access to remote, luxury camps.',
         
         // NEW: Key highlights with images
