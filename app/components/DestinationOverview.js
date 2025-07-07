@@ -8,6 +8,9 @@ const DestinationOverview = ({ experience }) => {
   // Get highlights from CMS content with fallback
   const highlights = experience.content?.overview?.highlights || [];
   
+  // Determine destination key for ExpandableGrid
+  const destinationKey = experience.title.toLowerCase();
+  
   return (
     <div className="space-y-6">
       {/* Hero Image */}
@@ -81,7 +84,7 @@ const DestinationOverview = ({ experience }) => {
             highlights.slice(0, 3).map((highlight) => (
               <div 
                 key={highlight.id}
-                className="relative p-4 rounded-xl text-center overflow-hidden group cursor-pointer transition-all duration-500 ease-out hover:scale-[1.02]" // REDUCED scale from 1.05 to 1.02, increased duration to 500ms, added ease-out
+                className="relative p-4 rounded-xl text-center overflow-hidden group cursor-pointer transition-all duration-500 ease-out hover:scale-[1.02]"
                 style={{
                   background: 'rgba(0, 0, 0, 0.25)',
                   backdropFilter: 'blur(20px)',
@@ -93,7 +96,7 @@ const DestinationOverview = ({ experience }) => {
                 {/* Background Image with Overlay */}
                 {highlight.image && (
                   <div 
-                    className="absolute inset-0 rounded-xl transition-transform duration-500 ease-out group-hover:scale-[1.03]" // REDUCED scale from 1.1 to 1.03, increased duration to 500ms
+                    className="absolute inset-0 rounded-xl transition-transform duration-500 ease-out group-hover:scale-[1.03]"
                     style={{
                       backgroundImage: `url(${highlight.image})`,
                       backgroundSize: 'cover',
@@ -132,7 +135,7 @@ const DestinationOverview = ({ experience }) => {
             // Fallback if no highlights exist in CMS - SAME IMPROVEMENTS APPLIED
             <>
               <div 
-                className="p-4 rounded-xl text-center transition-all duration-500 ease-out hover:scale-[1.02] cursor-pointer" // IMPROVED ANIMATION
+                className="p-4 rounded-xl text-center transition-all duration-500 ease-out hover:scale-[1.02] cursor-pointer"
                 style={{
                   background: 'rgba(0, 0, 0, 0.25)',
                   backdropFilter: 'blur(20px)',
@@ -141,13 +144,10 @@ const DestinationOverview = ({ experience }) => {
                   minHeight: '140px'
                 }}
               >
-                {/* CONSISTENT TITLE HEIGHT LAYOUT */}
                 <div className="relative z-10 flex flex-col h-full">
-                  {/* Fixed height container for title alignment */}
                   <div className="flex-1 flex items-center justify-center" style={{ minHeight: '60px' }}>
                     <h4 className="text-sm font-semibold leading-tight text-center" style={{ color: '#FCEDED' }}>Great Migration</h4>
                   </div>
-                  {/* Description container */}
                   <div className="flex-shrink-0 pb-2">
                     <p className="text-xs leading-relaxed text-center" style={{ color: 'rgba(252, 237, 237, 0.7)' }}>
                       Witness 2 million wildebeest cross the Mara River
@@ -157,7 +157,7 @@ const DestinationOverview = ({ experience }) => {
               </div>
 
               <div 
-                className="p-4 rounded-xl text-center transition-all duration-500 ease-out hover:scale-[1.02] cursor-pointer" // IMPROVED ANIMATION
+                className="p-4 rounded-xl text-center transition-all duration-500 ease-out hover:scale-[1.02] cursor-pointer"
                 style={{
                   background: 'rgba(0, 0, 0, 0.25)',
                   backdropFilter: 'blur(20px)',
@@ -166,13 +166,10 @@ const DestinationOverview = ({ experience }) => {
                   minHeight: '140px'
                 }}
               >
-                {/* CONSISTENT TITLE HEIGHT LAYOUT */}
                 <div className="relative z-10 flex flex-col h-full">
-                  {/* Fixed height container for title alignment */}
                   <div className="flex-1 flex items-center justify-center" style={{ minHeight: '60px' }}>
                     <h4 className="text-sm font-semibold leading-tight text-center" style={{ color: '#FCEDED' }}>Private Conservancies</h4>
                   </div>
-                  {/* Description container */}
                   <div className="flex-shrink-0 pb-2">
                     <p className="text-xs leading-relaxed text-center" style={{ color: 'rgba(252, 237, 237, 0.7)' }}>
                       Exclusive access with no crowds, night drives
@@ -182,7 +179,7 @@ const DestinationOverview = ({ experience }) => {
               </div>
 
               <div 
-                className="p-4 rounded-xl text-center transition-all duration-500 ease-out hover:scale-[1.02] cursor-pointer" // IMPROVED ANIMATION
+                className="p-4 rounded-xl text-center transition-all duration-500 ease-out hover:scale-[1.02] cursor-pointer"
                 style={{
                   background: 'rgba(0, 0, 0, 0.25)',
                   backdropFilter: 'blur(20px)',
@@ -191,13 +188,10 @@ const DestinationOverview = ({ experience }) => {
                   minHeight: '140px'
                 }}
               >
-                {/* CONSISTENT TITLE HEIGHT LAYOUT */}
                 <div className="relative z-10 flex flex-col h-full">
-                  {/* Fixed height container for title alignment */}
                   <div className="flex-1 flex items-center justify-center" style={{ minHeight: '60px' }}>
                     <h4 className="text-sm font-semibold leading-tight text-center" style={{ color: '#FCEDED' }}>Fly-in Luxury</h4>
                   </div>
-                  {/* Description container */}
                   <div className="flex-shrink-0 pb-2">
                     <p className="text-xs leading-relaxed text-center" style={{ color: 'rgba(252, 237, 237, 0.7)' }}>
                       Helicopter between camps in under 30 minutes
@@ -212,9 +206,9 @@ const DestinationOverview = ({ experience }) => {
 
       {/* Interactive Experiences Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Left - Expandable Grid */}
+        {/* Left - NEW Modular ExpandableGrid */}
         <div className="h-96">
-          <ExpandableGrid />
+          <ExpandableGrid destination={destinationKey} />
         </div>
         
         {/* Right - Map */}
