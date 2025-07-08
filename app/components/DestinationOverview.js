@@ -1,10 +1,16 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import ExpandableGrid from './ExpandableGrid';
 import KenyaMap from './KenyaMap';
+import HighlightsSection from './HighlightsSection'; // ADD THIS LINE
 
 const DestinationOverview = ({ experience }) => {
+console.log('Experience data:', experience);
+  console.log('Highlights data:', experience.highlightsSection);
+
+  const [isGridFullWidth, setIsGridFullWidth] = useState(false);
+  
   // Get highlights from CMS content with fallback
   const highlights = experience.content?.overview?.highlights || [];
   
@@ -204,18 +210,33 @@ const DestinationOverview = ({ experience }) => {
         </div>
       </div>
 
-      {/* Interactive Experiences Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      {/* Interactive Experiences Section - UPDATED FOR FULL WIDTH HANDLING */}
+      <div className={`transition-all duration-500 ${isGridFullWidth ? 'space-y-6' : 'grid grid-cols-1 lg:grid-cols-2 gap-6'}`}>
         {/* Left - NEW Modular ExpandableGrid */}
         <div className="h-96">
-          <ExpandableGrid destination={destinationKey} />
+          <ExpandableGrid 
+            destination={destinationKey}
+            onFullWidthChange={setIsGridFullWidth}
+          />
         </div>
         
-        {/* Right - Map */}
+        {/* Right - Map - Only show alongside grid when not full width */}
+        {!isGridFullWidth && (
+          <div className="space-y-4">
+            <KenyaMap />
+          </div>
+        )}
+      </div>
+
+      {/* Map below when grid is full width */}
+      {isGridFullWidth && (
         <div className="space-y-4">
           <KenyaMap />
         </div>
-      </div>
+      )}
+
+      {/* NEW: Add the Highlights Section here */}
+      <HighlightsSection highlights={experience.highlightsSection} />
     </div>
   );
 };

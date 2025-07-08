@@ -8,7 +8,7 @@ export const expandableSections = {
       summary: "Plan your perfect journey with expert insight.",
       detail: "This comprehensive guide includes detailed information about Kenya's diverse regions, optimal seasonal timing, cultural etiquette, and sample itineraries crafted by our local experts. From the rolling plains of the Maasai Mara to the pristine beaches of the coast, discover everything you need to know for an unforgettable journey through Kenya.",
       coverImage: "/demopic.jpg",
-      gradient: "linear-gradient(135deg, rgba(220, 38, 127, 0.3), rgba(159, 18, 57, 0.35))",
+      gradient: "linear-gradient(135deg, rgba(16, 15, 16, 0.3), rgba(30, 28, 29, 0.35))",
       content: {
         tabs: [
           {
@@ -175,7 +175,7 @@ export const expandableSections = {
       summary: "Explore dramatic landscapes, camps, and wildlife.",
       detail: "A curated collection of Kenya's most spectacular destinations",
       coverImage: "/demopic3.jpg",
-      gradient: "linear-gradient(135deg, rgba(79, 70, 229, 0.3), rgba(67, 56, 202, 0.35))",
+      gradient: "linear-gradient(135deg, rgba(229, 120, 70, 0.3), rgba(67, 56, 202, 0.35))",
       content: {
         featuredImage: {
           src: "/demopic.jpg",

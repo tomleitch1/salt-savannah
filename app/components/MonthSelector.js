@@ -2,9 +2,13 @@
 
 import React, { useState } from 'react';
 
-// Month Selector Component for Wildlife & Seasons
-const MonthSelector = () => {
+const MonthSelector = ({ section }) => {
   const [selectedMonth, setSelectedMonth] = useState(7); // Start with August (index 7)
+  
+  // Get destination from CMS content, fallback to Kenya
+  const content = section?.content || {};
+  const destination = content.destination || "Kenya";
+  const highlights = content.highlights || [];
 
   const months = [
     { name: 'Jan', full: 'January', season: 'ok', description: 'Cool and dry season. Good for wildlife viewing with fewer crowds.' },
@@ -70,6 +74,30 @@ const MonthSelector = () => {
 
   return (
     <div className="space-y-6">
+      {/* CMS Highlights Section */}
+      {highlights.length > 0 && (
+        <div 
+          className="p-4 rounded-2xl"
+          style={{
+            background: 'rgba(0, 0, 0, 0.25)',
+            backdropFilter: 'blur(15px)',
+            border: '1px solid rgba(250, 225, 216, 0.1)'
+          }}
+        >
+          <h4 className="text-[#FAE1D8] text-lg font-semibold mb-3">
+            {destination} Wildlife Calendar Highlights
+          </h4>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {highlights.map((highlight, index) => (
+              <div key={index} className="flex items-start gap-2 text-sm text-[#FAE1D8]/80">
+                <span className="text-lg">✨</span>
+                <span>{highlight}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Month Navigation */}
       <div className="relative flex items-center justify-center">
         {/* Left Arrow */}
@@ -178,7 +206,7 @@ const MonthSelector = () => {
                  selectedMonth >= 1 && selectedMonth <= 3 ? '🦓' : 
                  selectedMonth >= 10 || selectedMonth <= 0 ? '🌧️' : '🌿'}
               </div>
-              <div className="text-sm font-medium mb-1">{currentMonth.full} in Kenya</div>
+              <div className="text-sm font-medium mb-1">{currentMonth.full} in {destination}</div>
               <div className="text-xs opacity-60">📸 Seasonal Image Placeholder</div>
             </div>
           </div>
@@ -193,7 +221,7 @@ const MonthSelector = () => {
             }}
           >
             <div className="text-center mb-2">
-              <div className="text-xs font-medium text-[#FAE1D8]/80">Average</div>
+              <div className="text-xs font-medium text-[#FAE1D8]/80">Average Temperature</div>
             </div>
             
             <div className="flex items-center justify-between">
@@ -202,7 +230,7 @@ const MonthSelector = () => {
                 <div className="text-xl mb-1">☀️</div>
                 <div className="text-xs text-[#FAE1D8]/70 mb-1">High</div>
                 <div className="text-base font-semibold text-[#FAE1D8]">
-                  {getTemperature(selectedMonth, 'high')}°
+                  {getTemperature(selectedMonth, 'high')}°C
                 </div>
               </div>
 
@@ -211,10 +239,48 @@ const MonthSelector = () => {
                 <div className="text-xl mb-1">🌙</div>
                 <div className="text-xs text-[#FAE1D8]/70 mb-1">Low</div>
                 <div className="text-base font-semibold text-[#FAE1D8]">
-                  {getTemperature(selectedMonth, 'low')}°
+                  {getTemperature(selectedMonth, 'low')}°C
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Season Legend */}
+      <div 
+        className="p-4 rounded-2xl"
+        style={{
+          background: 'rgba(0, 0, 0, 0.25)',
+          backdropFilter: 'blur(15px)',
+          border: '1px solid rgba(250, 225, 216, 0.1)'
+        }}
+      >
+        <h5 className="text-[#FAE1D8] font-semibold mb-3">Season Guide</h5>
+        <div className="grid grid-cols-3 gap-4 text-center">
+          <div className="flex flex-col items-center">
+            <div 
+              className="w-6 h-2 rounded-full mb-2"
+              style={{ background: getSeasonColor('best') }}
+            />
+            <div className="text-[#FAE1D8] text-sm font-semibold">Best</div>
+            <div className="text-[#FAE1D8]/70 text-xs">Peak wildlife season</div>
+          </div>
+          <div className="flex flex-col items-center">
+            <div 
+              className="w-6 h-2 rounded-full mb-2"
+              style={{ background: getSeasonColor('good') }}
+            />
+            <div className="text-[#FAE1D8] text-sm font-semibold">Good</div>
+            <div className="text-[#FAE1D8]/70 text-xs">Excellent conditions</div>
+          </div>
+          <div className="flex flex-col items-center">
+            <div 
+              className="w-6 h-2 rounded-full mb-2"
+              style={{ background: getSeasonColor('ok') }}
+            />
+            <div className="text-[#FAE1D8] text-sm font-semibold">Ok</div>
+            <div className="text-[#FAE1D8]/70 text-xs">Budget-friendly</div>
           </div>
         </div>
       </div>

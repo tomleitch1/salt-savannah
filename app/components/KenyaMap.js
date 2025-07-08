@@ -60,9 +60,9 @@ const KenyaMap = () => {
         }).addTo(map);
 
         // Beautiful tiles
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-          attribution: '© CARTO',
-          maxZoom: 20,
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+          attribution: '© Carto',
+          maxZoom: 19,
           detectRetina: true
         }).addTo(map);
 

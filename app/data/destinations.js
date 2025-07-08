@@ -9,10 +9,9 @@ export const destinations = [
     
     content: {
       overview: {
-        heroDescription: 'Endless plains and incredible wildlife in the heart of East Africa',
+        heroDescription: 'From the endless savannahs of the Maasai Mara to the pristine beaches of the Swahili coast, Kenya offers unparalleled diversity.',
         description: 'Kenya stands as one of Africa\'s premier safari destinations, offering everything from the Great Migration spectacle to intimate cultural encounters with the Maasai people. From sweeping savannahs to quiet coastlines, Kenya offers big game safaris, private conservancies, rich Swahili culture, and fly-in access to remote, luxury camps.',
         
-        // NEW: Key highlights with images
         highlights: [
           {
             id: 1,
@@ -46,7 +45,35 @@ export const destinations = [
         description: null,
         items: []
       }
-    }
+    },
+
+    // NEW: Add this highlights section
+    highlightsSection: [
+      {
+        id: 1,
+        title: "Private Conservancies",
+        image: "/demopic.jpg",
+        tags: ["Remote", "Night Drives"],
+        description: "Experience exclusive access to Kenya's private conservancies with fewer crowds, freedom to off-road, and unique night safaris.",
+        link: "/experiences/private-conservancies"
+      },
+      {
+        id: 2,
+        title: "The Great Migration",
+        image: "/demopic.jpg",
+        tags: ["Migration", "Iconic", "July–Oct"],
+        description: "Witness one of nature's greatest spectacles as millions of wildebeest and zebra cross the Mara River in dramatic fashion.",
+        link: "/experiences/great-migration"
+      },
+      {
+        id: 3,
+        title: "Swahili Coast",
+        image: "/demopic.jpg",
+        tags: ["Beach", "Culture", "Relaxation"],
+        description: "Explore Kenya's coastal charm with turquoise waters, white-sand beaches, and vibrant Swahili heritage.",
+        link: "/destinations/swahili-coast"
+      }
+    ]
   },
   
   {
@@ -62,7 +89,6 @@ export const destinations = [
         heroDescription: 'Home to the iconic Serengeti and the magnificent Ngorongoro Crater, Tanzania offers legendary safari experiences.',
         description: 'Tanzania encompasses the heart of East Africa\'s wildlife kingdom with unmatched wildlife densities and dramatic landscapes. The Serengeti ecosystem supports the world\'s largest terrestrial mammal migration.',
         
-        // NEW: Key highlights with images
         highlights: [
           {
             id: 1,
